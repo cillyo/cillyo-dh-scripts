@@ -196,16 +196,17 @@ end
 
 local function bringPlr(Target, POS)
     local TargetPlr = Target
-
     local c = game.Players.LocalPlayer.Character
     local Root = c.HumanoidRootPart
     local PrevCF = Root.CFrame
     local TargetChar = TargetPlr.Character
-    if TargetPlr and TargetPlr.Character and TargetPlr.Character:FindFirstChild("Humanoid") and not (not c or not c:FindFirstChild("BodyEffects") or not c.BodyEffects:FindFirstChild("K.O") or not c.BodyEffects:FindFirstChild("Grabbed") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar or not TargetChar:FindFirstChild("BodyEffects") or not TargetChar.BodyEffects:FindFirstChild("K.O") or TargetChar.BodyEffects["K.O"].Value == true) then
+
+    if TargetPlr and TargetPlr.Character and TargetPlr.Character:FindFirstChild("Humanoid") and not (
+        not c or not c:FindFirstChild("BodyEffects") or not c.BodyEffects:FindFirstChild("K.O") or not c.BodyEffects:FindFirstChild("Grabbed") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar or not TargetChar:FindFirstChild("BodyEffects") or not TargetChar.BodyEffects:FindFirstChild("K.O") or TargetChar.BodyEffects["K.O"].Value == true
+    ) then
         CmdSettings["IsLocking"] = true
 
         c.Humanoid:SetStateEnabled(Enum.HumanoidStateType.FallingDown, false)
-
         Root.CFrame = CFrame.new(TargetChar.HumanoidRootPart.Position) * CFrame.new(0, 0, 1)
 
         repeat
@@ -216,26 +217,26 @@ local function bringPlr(Target, POS)
             end
             c.Combat:Activate()
         until not TargetPlr or not TargetChar or not c or not c:FindFirstChild("BodyEffects") or not c.BodyEffects:FindFirstChild("K.O") or not c.BodyEffects:FindFirstChild("Grabbed") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar or not TargetChar:FindFirstChild("BodyEffects") or not TargetChar.BodyEffects:FindFirstChild("K.O") or TargetChar.BodyEffects["K.O"].Value == true
+
         Root.CFrame = CFrame.new(TargetChar.LowerTorso.Position) * CFrame.new(0, 3, 0)
         if c.BodyEffects.Grabbed.Value ~= nil then
-
+            -- Nothing
         else
             if not (not TargetPlr or not TargetChar or not c or not c:FindFirstChild("BodyEffects") or not c.BodyEffects:FindFirstChild("K.O") or not c.BodyEffects:FindFirstChild("Grabbed") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar or not TargetChar:FindFirstChild("BodyEffects") or not TargetChar.BodyEffects:FindFirstChild("K.O") or TargetChar.BodyEffects["K.O"].Value == false) then
                 local args = {
                     [1] = "Grabbing",
                     [2] = false
                 }
-
                 game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
             end
-
         end
+
         repeat
             wait(0.35)
             if not (not TargetPlr or not TargetChar or not c or not c:FindFirstChild("BodyEffects") or not c.BodyEffects:FindFirstChild("K.O") or not c.BodyEffects:FindFirstChild("Grabbed") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar or not TargetChar:FindFirstChild("BodyEffects") or not TargetChar.BodyEffects:FindFirstChild("K.O") or TargetChar.BodyEffects["K.O"].Value == false) then
                 Root.CFrame = CFrame.new(TargetChar.LowerTorso.Position) * CFrame.new(0, 3, 0)
                 if c.BodyEffects.Grabbed.Value ~= nil then
-
+                    -- Nothing
                 else
                     if not (not TargetPlr or not TargetChar or not c or not c:FindFirstChild("BodyEffects") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar or not TargetChar:FindFirstChild("BodyEffects") or TargetChar.BodyEffects["K.O"].Value == false) then
                         local args = {
@@ -247,6 +248,7 @@ local function bringPlr(Target, POS)
                 end
             end
         until not TargetPlr or not TargetChar or not c or not c:FindFirstChild("BodyEffects") or not c.BodyEffects:FindFirstChild("K.O") or not c.BodyEffects:FindFirstChild("Grabbed") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar or not TargetChar:FindFirstChild("BodyEffects") or not TargetChar.BodyEffects:FindFirstChild("K.O") or TargetChar.BodyEffects["K.O"].Value == false
+
         if POS == nil then
             Root.CFrame = Host.Character.HumanoidRootPart.CFrame
         else
@@ -258,7 +260,6 @@ local function bringPlr(Target, POS)
             [1] = "Grabbing",
             [2] = false
         }
-
         game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
     end
 end
