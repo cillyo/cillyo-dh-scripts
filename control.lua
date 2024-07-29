@@ -287,15 +287,6 @@ end
 
 handleCashDestroying()
 
-local function altAccountsSay(message)
-    for _, altId in ipairs(altAccounts) do
-        local altPlayer = game.Players:GetPlayerByUserId(altId)
-        if altPlayer then
-            game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(message, "All")
-        end
-    end
-end
-
 local function onChatMessage(player, message)
     if player.UserId == hostUserId then
         if message:sub(1, #prefix) == prefix then
@@ -321,10 +312,9 @@ local function onChatMessage(player, message)
                 elseif cmd == "delcash" then
                     if param == "on" then
                         destroyCashOn = true
-                        altAccountsSay("DelCash: On")
+                        
                     elseif param == "off" then
                         destroyCashOn = false
-                        altAccountsSay("DelCash: Off")
                     end
                 end
             else
@@ -357,7 +347,6 @@ local function onChatMessage(player, message)
                     altAccountsSay("DelCash: On")
                 elseif command == "delcash off" then
                     destroyCashOn = false
-                    altAccountsSay("DelCash: Off")
                 end
             end
         end
