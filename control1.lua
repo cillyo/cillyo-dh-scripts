@@ -194,15 +194,6 @@ local function unWallet()
     end
 end
 
-local function GetPlayerFromString(nameOrId)
-    for _, player in ipairs(game.Players:GetPlayers()) do
-        if player.Name:lower() == nameOrId:lower() or tostring(player.UserId) == nameOrId then
-            return player
-        end
-    end
-    return nil
-end
-
 local function BringPlr(Target,POS)
 	if getgenv().PointInTable == 1 and Target.Character and Target.Character:FindFirstChild("Humanoid") then
 		CmdSettings["Aura"] = nil
@@ -316,12 +307,25 @@ local function onChatMessage(player, message)
                 local cmd = command:sub(1, spaceIndex - 1)
                 local param = command:sub(spaceIndex + 1)
                 if cmd == "bring" then
-                    local spot
-                    if param == "host" or BringLocations[param] then
-                        spot = BringLocations[param]
-                        param = nil
+                    local args = param:split(" ")
+                    if #args == 2 then
+                        -- bring <player> host
+                        if args[2]:lower() == "host" then
+                            local playerToBring = GetPlayerFromString(args[1])
+                            if playerToBring then
+                                BringPlr(playerToBring, BringLocations["host"])
+                            end
+                        -- bring host <location>
+                        elseif args[1]:lower() == "host" and BringLocations[args[2]:lower()] then
+                            BringPlr(player, BringLocations[args[2]:lower()])
+                        end
+                    elseif #args == 3 and BringLocations[args[3]:lower()] then
+                        -- bring <player> <location>
+                        local playerToBring = GetPlayerFromString(args[1])
+                        if playerToBring then
+                            BringPlr(playerToBring, BringLocations[args[3]:lower()])
+                        end
                     end
-                    BringPlr(player, spot)
                 elseif cmd == "setup" then
                     local location = locations[param]
                     if location then
@@ -369,18 +373,6 @@ local function onChatMessage(player, message)
                 elseif command == "delcash off" then
                     destroyCashOn = false
                     altAccountsSay("DelCash: Off")
-                elseif command:sub(1, 5) == "bring" then
-    local args = command:split(" ")
-    if #args == 3 and BringLocations[args[3]:lower()] then
-        local foundPlayer = GetPlayerFromString(args[2])
-        if foundPlayer then
-            BringPlr(foundPlayer, BringLocations[args[3]:lower()])
-        end
-    elseif #args == 2 then
-        local foundPlayer = GetPlayerFromString(args[2])
-        if foundPlayer then
-            BringPlr(foundPlayer, nil)
-                    end
                 end
             end
         end
