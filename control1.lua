@@ -194,6 +194,15 @@ local function unWallet()
     end
 end
 
+local function GetPlayerFromString(nameOrId)
+    for _, player in ipairs(game.Players:GetPlayers()) do
+        if player.Name:lower() == nameOrId:lower() or tostring(player.UserId) == nameOrId then
+            return player
+        end
+    end
+    return nil
+end
+
 local function BringPlr(Target,POS)
 	if getgenv().PointInTable == 1 and Target.Character and Target.Character:FindFirstChild("Humanoid") then
 		CmdSettings["Aura"] = nil
@@ -361,14 +370,16 @@ local function onChatMessage(player, message)
                     destroyCashOn = false
                     altAccountsSay("DelCash: Off")
                 elseif command:sub(1, 5) == "bring" then
-                    local args = command:split(" ")
-                    if #args == 3 and BringLocations[args[3]:lower()] then
-                        local foundPlayer = GetPlayerFromString(args[2])
-                        if foundPlayer then
-                            BringPlr(foundPlayer, BringLocations[args[3]:lower()])
-                        end
-                    elseif #args == 2 then
-                        BringPlr(player, nil)
+    local args = command:split(" ")
+    if #args == 3 and BringLocations[args[3]:lower()] then
+        local foundPlayer = GetPlayerFromString(args[2])
+        if foundPlayer then
+            BringPlr(foundPlayer, BringLocations[args[3]:lower()])
+        end
+    elseif #args == 2 then
+        local foundPlayer = GetPlayerFromString(args[2])
+        if foundPlayer then
+            BringPlr(foundPlayer, nil)
                     end
                 end
             end
