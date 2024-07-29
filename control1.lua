@@ -309,10 +309,10 @@ local function onChatMessage(player, message)
                 if cmd == "bring" then
                     local spot
                     if param == "host" or BringLocations[param] then
-                        spot = param
+                        spot = BringLocations[param]
                         param = nil
                     end
-                    bringPlr(param, spot)
+                    BringPlr(player, spot)
                 elseif cmd == "setup" then
                     local location = locations[param]
                     if location then
@@ -360,17 +360,16 @@ local function onChatMessage(player, message)
                 elseif command == "delcash off" then
                     destroyCashOn = false
                     altAccountsSay("DelCash: Off")
-                elseif Args[1] == "bring" and Args[2] == "host" and BringLocations[string.lower(Args[3])] then
-				BringPlr(Host,BringLocations[string.lower(Args[3])])
-			elseif Args[1] == "bring" and BringLocations[string.lower(Args[3])] then
-				local FoundPlayer = GetPlayerFromString(Args[2])
-				if FoundPlayer then
-					BringPlr(FoundPlayer,BringLocations[string.lower(Args[3])])
-				end
-			elseif Args[1] == "bring" and Args[3] == "host" then
-				local FoundPlayer = GetPlayerFromString(Args[2])
-				if FoundPlayer then
-					BringPlr(FoundPlayer,nil)
+                elseif command:sub(1, 5) == "bring" then
+                    local args = command:split(" ")
+                    if #args == 3 and BringLocations[args[3]:lower()] then
+                        local foundPlayer = GetPlayerFromString(args[2])
+                        if foundPlayer then
+                            BringPlr(foundPlayer, BringLocations[args[3]:lower()])
+                        end
+                    elseif #args == 2 then
+                        BringPlr(player, nil)
+                    end
                 end
             end
         end
