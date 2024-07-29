@@ -365,17 +365,19 @@ local function onChatMessage(player, message)
 end
 
 local function setupChatListeners(player)
-    player.Chatted:Connect(function(message)
-        onChatMessage(player, message)
-    end)
+    if player.UserId == hostUserId then
+        player.Chatted:Connect(function(message)
+            onChatMessage(player, message)
+        end)
+    end
 end
 
 game.Players.PlayerAdded:Connect(function(player)
     setupChatListeners(player)
 end)
 
-for _, player in ipairs(game.Players:GetPlayers()) do
-    setupChatListeners(player)
+if game.Players:GetPlayerByUserId(hostUserId) then
+    setupChatListeners(game.Players:GetPlayerByUserId(hostUserId))
 end
 
 print("Script loaded successfully.")
