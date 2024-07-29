@@ -64,12 +64,10 @@ local locations = {
     [36] = Vector3.new(-365.39776611328125, 21.362009048461914, -226.9497375488281), -- 36. Alt hesap
     [37] = Vector3.new(-385.39776611328125, 21.362009048461914, -216.9497375488281), -- 37. Alt hesap
     [38] = Vector3.new(-375.39776611328125, 21.362009048461914, -216.9497375488281), -- 38. Alt hesap
-    
-    }
-    
+    },
     club = Vector3.new(0, 0, 0),
     basketball = Vector3.new(0, 0, 0),
-    school = Vector3.new(0, 0, 0)
+    school = Vector3.new(0, 0, 0),
 }
 
 local isDropping = false
