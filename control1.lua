@@ -202,18 +202,22 @@ local function GetPlayerFromString(str,ignore)
 	return nil
 end
 
-local function BringPlr(Target, POS)
+local function bringPlr(Target, POS)
     local TargetPlr = Target
+
     local c = game.Players.LocalPlayer.Character
     local Root = c.HumanoidRootPart
     local PrevCF = Root.CFrame
-    local TargetChar = TargetPlr and TargetPlr.Character
-    
-    if TargetPlr and TargetChar and TargetChar:FindFirstChild("Humanoid") and not (not c or not c:FindFirstChild("BodyEffects") or not c.BodyEffects:FindFirstChild("K.O") or not c.BodyEffects:FindFirstChild("Grabbed") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar:FindFirstChild("BodyEffects") or not TargetChar.BodyEffects:FindFirstChild("K.O") or TargetChar.BodyEffects["K.O"].Value == true) then
+    local TargetChar = TargetPlr.Character
+    if TargetPlr and TargetPlr.Character and TargetPlr.Character:FindFirstChild("Humanoid") and not (not c or not c:FindFirstChild("BodyEffects") or not c.BodyEffects:FindFirstChild("K.O") or not c.BodyEffects:FindFirstChild("Grabbed") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar or not TargetChar:FindFirstChild("BodyEffects") or not TargetChar.BodyEffects:FindFirstChild("K.O") or TargetChar.BodyEffects["K.O"].Value == true) then
         CmdSettings["IsLocking"] = true
+
         c.Humanoid:SetStateEnabled(Enum.HumanoidStateType.FallingDown, false)
+
         Root.CFrame = CFrame.new(TargetChar.HumanoidRootPart.Position) * CFrame.new(0, 0, 1)
-        repeat wait()
+
+        repeat
+            wait()
             Root.CFrame = CFrame.new(TargetChar.HumanoidRootPart.Position) * CFrame.new(0, 0, 1)
             if not c:FindFirstChild("Combat") then
                 c.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Combat)
@@ -222,21 +226,30 @@ local function BringPlr(Target, POS)
         until not TargetPlr or not TargetChar or not c or not c:FindFirstChild("BodyEffects") or not c.BodyEffects:FindFirstChild("K.O") or not c.BodyEffects:FindFirstChild("Grabbed") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar or not TargetChar:FindFirstChild("BodyEffects") or not TargetChar.BodyEffects:FindFirstChild("K.O") or TargetChar.BodyEffects["K.O"].Value == true
         Root.CFrame = CFrame.new(TargetChar.LowerTorso.Position) * CFrame.new(0, 3, 0)
         if c.BodyEffects.Grabbed.Value ~= nil then
-            -- code
+
         else
             if not (not TargetPlr or not TargetChar or not c or not c:FindFirstChild("BodyEffects") or not c.BodyEffects:FindFirstChild("K.O") or not c.BodyEffects:FindFirstChild("Grabbed") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar or not TargetChar:FindFirstChild("BodyEffects") or not TargetChar.BodyEffects:FindFirstChild("K.O") or TargetChar.BodyEffects["K.O"].Value == false) then
-                local args = { "Grabbing", false }
+                local args = {
+                    [1] = "Grabbing",
+                    [2] = false
+                }
+
                 game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
             end
+
         end
-        repeat wait(0.35)
+        repeat
+            wait(0.35)
             if not (not TargetPlr or not TargetChar or not c or not c:FindFirstChild("BodyEffects") or not c.BodyEffects:FindFirstChild("K.O") or not c.BodyEffects:FindFirstChild("Grabbed") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar or not TargetChar:FindFirstChild("BodyEffects") or not TargetChar.BodyEffects:FindFirstChild("K.O") or TargetChar.BodyEffects["K.O"].Value == false) then
                 Root.CFrame = CFrame.new(TargetChar.LowerTorso.Position) * CFrame.new(0, 3, 0)
                 if c.BodyEffects.Grabbed.Value ~= nil then
-                    -- code
+
                 else
                     if not (not TargetPlr or not TargetChar or not c or not c:FindFirstChild("BodyEffects") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar or not TargetChar:FindFirstChild("BodyEffects") or TargetChar.BodyEffects["K.O"].Value == false) then
-                        local args = { "Grabbing", false }
+                        local args = {
+                            [1] = "Grabbing",
+                            [2] = false
+                        }
                         game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
                     end
                 end
@@ -249,16 +262,21 @@ local function BringPlr(Target, POS)
         end
         CmdSettings["IsLocking"] = nil
         wait(1.5)
-        local args = { "Grabbing", false }
+        local args = {
+            [1] = "Grabbing",
+            [2] = false
+        }
+
         game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
     end
 end
 
 local BringLocations = {
-	["bank"] = CFrame.new(-396.988922, 21.7570763, -293.929779, -0.102468058, -1.9584887e-09, -0.994736314, 7.23731564e-09, 1, -2.71436984e-09, 0.994736314, -7.47735651e-09, -0.102468058),
-	["club"] = CFrame.new(-264.434479, 0.0355005264, -430.854736, -0.999828756, 9.58909574e-09, -0.0185054261, 9.92017934e-09, 1, -1.77993904e-08, 0.0185054261, -1.79799198e-08, -0.999828756),	
-	["court"] = CFrame.new(-932, 23, -482.299988),
-	["train"] = CFrame.new(591.396118, 34.5070686, -146.159561, 0.0698467195, -4.91725913e-08, -0.997557759, 5.03374231e-08, 1, -4.57684664e-08, 0.997557759, -4.70177071e-08, 0.0698467195),	
+    ["bank"] = CFrame.new(-403.210052, 600.530273, -291.573334, -0.0173361916, 1.31683358e-08, -0.999849737, -1.83786355e-08, 1, 1.34889788e-08, 0.999849737, 1.86097218e-08, -0.0173361916),
+    ["admin"] = CFrame.new(-871.386902, 546.130981, -652.473511, -0.999967813, -6.39340882e-08, 0.0080243554, -6.31848351e-08, 1, 9.36256015e-08, -0.0080243554, 9.31155668e-08, -0.999967813),
+    ["klub"] = CFrame.new(-266.170837, 578.808716, -423.926453, -0.999792337, -5.47117693e-08, -0.0203772113, -5.37027454e-08, 1, -5.00643722e-08, 0.0203772113, -4.89596665e-08, -0.999792337),
+    ["vault"] = CFrame.new(-492.928253, 601.909546, -285.616974, 0.0240757726, 4.88051128e-08, 0.999710143, -4.81243205e-08, 1, -4.7660297e-08, -0.999710143, -4.69629136e-08, 0.0240757726),
+    ["train"] = CFrame.new(-422.172394, 557.530212, 22.2141819, -0.999933541, 1.72892332e-08, 0.0115311332, 1.67518728e-08, 1, -4.66974122e-08, -0.0115311332, -4.65011389e-08, -0.999933541),
 }
 
 local destroyCashOn = false
