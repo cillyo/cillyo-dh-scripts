@@ -315,70 +315,70 @@ local function onChatMessage(player, message)
         if message:sub(1, #prefix) == prefix then
             local command = message:sub(#prefix + 1)
             local spaceIndex = command:find(" ")
-            local Args = {}
+            local cmd, param = command, nil
             if spaceIndex then
-                local cmd = command:sub(1, spaceIndex - 1)
-                Args = {command:sub(spaceIndex + 1):match(([^%s]+)%s*([^%s]*)%s*([^%s]*)%s*)}
-                if cmd == "setup" then
-                    local location = locations[param]
-                    if location then
-                        teleportAltsToLocation(location)
-                    end
-                elseif cmd == "redeem" then
-                    redeemPromoCode(param)
-                elseif cmd == "delcash" then
-                    if param == "on" then
-                        destroyCashOn = true
-                        altAccountsSay("DelCash: On")
-                    elseif param == "off" then
-                        destroyCashOn = false
-                        altAccountsSay("DelCash: Off")
-                    end
+                cmd = command:sub(1, spaceIndex - 1)
+                param = command:sub(spaceIndex + 1)
+            end
+
+            if cmd == "setup" then
+                local location = locations[param]
+                if location then
+                    teleportAltsToLocation(location)
                 end
-            else
-                if command == "setup bank" then
-                    teleportAltsToLocation(locations.bank)
-                elseif command == "setup club" then
-                    teleportAltsToLocation(locations.club)
-                elseif command == "setup basketball" then
-                    teleportAltsToLocation(locations.basketball)
-                elseif command == "setup school" then
-                    teleportAltsToLocation(locations.school)
-                elseif command == "bring" then
-                    if Args[1] == "host" and BringLocations[string.lower(Args[2])] then
-                        BringPlr(Host, BringLocations[string.lower(Args[2])])
-                    elseif Args[1] and BringLocations[string.lower(Args[2])] then
-                        local FoundPlayer = GetPlayerFromString(Args[1])
-                        if FoundPlayer then
-                            BringPlr(FoundPlayer, BringLocations[string.lower(Args[2])])
-                        end
-                    elseif Args[2] == "host" then
-                        local FoundPlayer = GetPlayerFromString(Args[1])
-                        if FoundPlayer then
-                            BringPlr(FoundPlayer, nil)
-                        end
-                    end
-                elseif command == "drop" then
-                    startDroppingCash()
-                elseif command == "stop" then
-                    stopDroppingCash()
-                elseif command == "airlock" then
-                    airlock()
-                elseif command == "unlock" then
-                    unlock()
-                elseif command == "reset" then
-                    resetAlts()
-                elseif command == "wallet" then
-                    showWallets()
-                elseif command == "unwallet" then
-                    unWallet()
-                elseif command == "delcash on" then
+            elseif cmd == "redeem" then
+                redeemPromoCode(param)
+            elseif cmd == "delcash" then
+                if param == "on" then
                     destroyCashOn = true
                     altAccountsSay("DelCash: On")
-                elseif command == "delcash off" then
+                elseif param == "off" then
                     destroyCashOn = false
                     altAccountsSay("DelCash: Off")
                 end
+            elseif cmd == "setup bank" then
+                teleportAltsToLocation(locations.bank)
+            elseif cmd == "setup club" then
+                teleportAltsToLocation(locations.club)
+            elseif cmd == "setup basketball" then
+                teleportAltsToLocation(locations.basketball)
+            elseif cmd == "setup school" then
+                teleportAltsToLocation(locations.school)
+            elseif cmd == "bring" then
+                local args = param:split(" ")
+                if args[1] == "host" and BringLocations[string.lower(args[2])] then
+                    BringPlr(Host, BringLocations[string.lower(args[2])])
+                elseif args[1] and BringLocations[string.lower(args[2])] then
+                    local FoundPlayer = GetPlayerFromString(args[1])
+                    if FoundPlayer then
+                        BringPlr(FoundPlayer, BringLocations[string.lower(args[2])])
+                    end
+                elseif args[2] == "host" then
+                    local FoundPlayer = GetPlayerFromString(args[1])
+                    if FoundPlayer then
+                        BringPlr(FoundPlayer, nil)
+                    end
+                end
+            elseif cmd == "drop" then
+                startDroppingCash()
+            elseif cmd == "stop" then
+                stopDroppingCash()
+            elseif cmd == "airlock" then
+                airlock()
+            elseif cmd == "unlock" then
+                unlock()
+            elseif cmd == "reset" then
+                resetAlts()
+            elseif cmd == "wallet" then
+                showWallets()
+            elseif cmd == "unwallet" then
+                unWallet()
+            elseif cmd == "delcash on" then
+                destroyCashOn = true
+                altAccountsSay("DelCash: On")
+            elseif cmd == "delcash off" then
+                destroyCashOn = false
+                altAccountsSay("DelCash: Off")
             end
         end
     end
