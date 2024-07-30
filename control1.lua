@@ -194,6 +194,15 @@ local function unWallet()
     end
 end
 
+local function GetPlayerFromString(nameOrId)
+    for _, player in ipairs(game.Players:GetPlayers()) do
+        if player.Name:lower() == nameOrId:lower() or tostring(player.UserId) == nameOrId then
+            return player
+        end
+    end
+    return nil
+end
+
 local function BringPlr(Target,POS)
 	if getgenv().PointInTable == 1 and Target.Character and Target.Character:FindFirstChild("Humanoid") then
 		CmdSettings["Aura"] = nil
