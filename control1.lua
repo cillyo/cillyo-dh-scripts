@@ -320,20 +320,21 @@ local function onChatMessage(player, message)
             elseif cmd == "setup school" then
                 teleportAltsToLocation(locations.school)
             elseif cmd == "bring" then
-                bringAltsToOwner()
-                if args[1] == "host" and BringLocations[string.lower(args[2])] then
-                    BringPlr(Host, BringLocations[string.lower(args[2])])
-                elseif args[1] and BringLocations[string.lower(args[2])] then
-                    local FoundPlayer = GetPlayerFromString(args[1])
-                    if FoundPlayer then
-                        BringPlr(FoundPlayer, BringLocations[string.lower(args[2])])
-                    end
-                elseif args[2] == "host" then
-                    local FoundPlayer = GetPlayerFromString(args[1])
-                    if FoundPlayer then
-                        BringPlr(FoundPlayer, nil)
-                    end
-                end
+    local args = {}
+    for str in param:gmatch("%S+") do table.insert(args, str) end
+    if args[1] == "host" and BringLocations[string.lower(args[2])] then
+        BringPlr(Host, BringLocations[string.lower(args[2])])
+    elseif args[1] and BringLocations[string.lower(args[2])] then
+        local FoundPlayer = GetPlayerFromString(args[1])
+        if FoundPlayer then
+            BringPlr(FoundPlayer, BringLocations[string.lower(args[2])])
+        end
+    elseif args[2] == "host" then
+        local FoundPlayer = GetPlayerFromString(args[1])
+        if FoundPlayer then
+            BringPlr(FoundPlayer, nil)
+        end
+				end
             elseif cmd == "drop" then
                 startDroppingCash()
             elseif cmd == "stop" then
