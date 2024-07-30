@@ -194,13 +194,16 @@ local function unWallet()
     end
 end
 
-local function GetPlayerFromString(nameOrId)
-    for _, player in ipairs(game.Players:GetPlayers()) do
-        if player.Name:lower() == nameOrId:lower() or tostring(player.UserId) == nameOrId then
-            return player
-        end
-    end
-    return nil
+local function GetPlayerFromString(str,ignore)
+	for i,Targ in pairs(game.Players:GetPlayers()) do 
+		if not ignore and Targ == Variables["Player"] then
+			continue
+		end
+		if Targ.Name:lower():sub(1,#str) == str:lower() or  Targ.DisplayName:lower():sub(1,#str) == str:lower()  then
+			return Targ
+		end
+	end
+	return nil
 end
 
 local function BringPlr(Target,POS)
@@ -281,7 +284,6 @@ local BringLocations = {
 	["train"] = CFrame.new(591.396118, 34.5070686, -146.159561, 0.0698467195, -4.91725913e-08, -0.997557759, 5.03374231e-08, 1, -4.57684664e-08, 0.997557759, -4.70177071e-08, 0.0698467195),	
 }
 
-
 local destroyCashOn = false
 
 local function handleCashDestroying()
@@ -316,25 +318,12 @@ local function onChatMessage(player, message)
                 local cmd = command:sub(1, spaceIndex - 1)
                 local param = command:sub(spaceIndex + 1)
                 if cmd == "bring" then
-                    local args = param:split(" ")
-                    if #args == 2 then
-                        -- bring <player> host
-                        if args[2]:lower() == "host" then
-                            local playerToBring = GetPlayerFromString(args[1])
-                            if playerToBring then
-                                BringPlr(playerToBring, BringLocations["host"])
-                            end
-                        -- bring host <location>
-                        elseif args[1]:lower() == "host" and BringLocations[args[2]:lower()] then
-                            BringPlr(player, BringLocations[args[2]:lower()])
-                        end
-                    elseif #args == 3 and BringLocations[args[3]:lower()] then
-                        -- bring <player> <location>
-                        local playerToBring = GetPlayerFromString(args[1])
-                        if playerToBring then
-                            BringPlr(playerToBring, BringLocations[args[3]:lower()])
-                        end
+                    local spot
+                    if param == "host" or BringLocations[param] then
+                        spot = param
+                        param = nil
                     end
+                    bringPlr(param, spot)
                 elseif cmd == "setup" then
                     local location = locations[param]
                     if location then
@@ -362,6 +351,18 @@ local function onChatMessage(player, message)
                     teleportAltsToLocation(locations.school)
                 elseif command == "bring" then
                     bringAltsToOwner()
+		elseif Args[1] == ".bring" and Args[2] == "host" and BringLocations[string.lower(Args[3])] then
+				BringPlr(Host,BringLocations[string.lower(Args[3])])
+			elseif Args[1] == ".bring" and BringLocations[string.lower(Args[3])] then
+				local FoundPlayer = GetPlayerFromString(Args[2])
+				if FoundPlayer then
+					BringPlr(FoundPlayer,BringLocations[string.lower(Args[3])])
+				end
+			elseif Args[1] == ".bring" and Args[3] == "host" then
+				local FoundPlayer = GetPlayerFromString(Args[2])
+				if FoundPlayer then
+					BringPlr(FoundPlayer,nil)
+					end
                 elseif command == "drop" then
                     startDroppingCash()
                 elseif command == "stop" then
