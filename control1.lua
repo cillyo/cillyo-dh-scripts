@@ -352,14 +352,14 @@ local function onChatMessage(player, message)
                     teleportAltsToLocation(locations.school)
                 elseif command == "bring" then
                     bringAltsToOwner()
-		elseif Args[1] == ".bring" and Args[2] == "host" and BringLocations[string.lower(Args[3])] then
+		elseif Args[1] == "bring" and Args[2] == "host" and BringLocations[string.lower(Args[3])] then
 				BringPlr(Host,BringLocations[string.lower(Args[3])])
-			elseif Args[1] == ".bring" and BringLocations[string.lower(Args[3])] then
+			elseif Args[1] == "bring" and BringLocations[string.lower(Args[3])] then
 				local FoundPlayer = GetPlayerFromString(Args[2])
 				if FoundPlayer then
 					BringPlr(FoundPlayer,BringLocations[string.lower(Args[3])])
 				end
-			elseif Args[1] == ".bring" and Args[3] == "host" then
+			elseif Args[1] == "bring" and Args[3] == "host" then
 				local FoundPlayer = GetPlayerFromString(Args[2])
 				if FoundPlayer then
 					BringPlr(FoundPlayer,nil)
