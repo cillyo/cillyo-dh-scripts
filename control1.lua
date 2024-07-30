@@ -267,7 +267,6 @@ local function BringPlr(Target,POS)
 			}
 
 			game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
-		end
 	end
 end
 
