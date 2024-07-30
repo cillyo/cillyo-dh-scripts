@@ -337,7 +337,7 @@ local function onChatMessage(player, message)
             elseif cmd == "setup school" then
                 teleportAltsToLocation(locations.school)
             elseif cmd == "bring" then
-                local args = param:split(" ")
+                bringAltsToOwner()
                 if args[1] == "host" and BringLocations[string.lower(args[2])] then
                     BringPlr(Host, BringLocations[string.lower(args[2])])
                 elseif args[1] and BringLocations[string.lower(args[2])] then
