@@ -1,11 +1,7 @@
-local hostUserId = getgenv().Host or 1596382068 -- Host Userid
-local fpsCap = getgenv().Fps or 5 -- FpsCap for Alts
-local prefix = getgenv().Prefix or '!' -- Example Prefix "!" "?" "/" "."
-local altAccounts = getgenv().Alts or { -- Alt hesaplarin ID'leri
-    5590716577,
-    5590724729,
-    5590729811,
-}
+local hostUserId = getgenv().Host
+local fpsCap = getgenv().Fps
+local prefix = getgenv().Prefix
+local altAccounts = getgenv().Alts
 local userId = game:GetService('Players').LocalPlayer.UserId
 
 local function loadAltAccountScripts()
@@ -22,6 +18,12 @@ if userId == hostUserId then
     loadHostScript()
 elseif table.find(altAccounts, userId) then
     loadAltAccountScripts()
+end
+
+if table.find(getgenv().Alts,game.Players.LocalPlayer.UserId) then
+	getgenv().PointInTable = table.find(getgenv().Alts,game.Players.LocalPlayer.UserId)
+else
+	return
 end
 
 local locations = {
