@@ -210,7 +210,6 @@ end
 
 local function BringPlr(Target,POS)
 	if getgenv().PointInTable == 1 and Target.Character and Target.Character:FindFirstChild("Humanoid") then
-		CmdSettings["Aura"] = nil
 
 		local TargetPlr = Target
 
