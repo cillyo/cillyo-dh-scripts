@@ -20,12 +20,6 @@ elseif table.find(altAccounts, userId) then
     loadAltAccountScripts()
 end
 
-if table.find(getgenv().Alts,game.Players.LocalPlayer.UserId) then
-	getgenv().PointInTable = table.find(getgenv().Alts,game.Players.LocalPlayer.UserId)
-else
-	return
-end
-
 local locations = {
     bank = {
         [1] = Vector3.new(-385.39776611328125, 21.362009048461914, -336.9497375488281), -- 1. Alt hesap
