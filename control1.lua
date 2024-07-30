@@ -315,8 +315,10 @@ local function onChatMessage(player, message)
         if message:sub(1, #prefix) == prefix then
             local command = message:sub(#prefix + 1)
             local spaceIndex = command:find(" ")
+            local Args = {}
             if spaceIndex then
                 local cmd = command:sub(1, spaceIndex - 1)
+                Args = {command:sub(spaceIndex + 1):match(([^%s]+)%s*([^%s]*)%s*([^%s]*)%s*)}
                 if cmd == "setup" then
                     local location = locations[param]
                     if location then
@@ -343,19 +345,19 @@ local function onChatMessage(player, message)
                 elseif command == "setup school" then
                     teleportAltsToLocation(locations.school)
                 elseif command == "bring" then
-                    bringAltsToOwner()
-		elseif Args[1] == "bring" and Args[2] == "host" and BringLocations[string.lower(Args[3])] then
-				BringPlr(Host,BringLocations[string.lower(Args[3])])
-			elseif Args[1] == "bring" and BringLocations[string.lower(Args[3])] then
-				local FoundPlayer = GetPlayerFromString(Args[2])
-				if FoundPlayer then
-					BringPlr(FoundPlayer,BringLocations[string.lower(Args[3])])
-				end
-			elseif Args[1] == "bring" and Args[3] == "host" then
-				local FoundPlayer = GetPlayerFromString(Args[2])
-				if FoundPlayer then
-					BringPlr(FoundPlayer,nil)
-					end
+                    if Args[1] == "host" and BringLocations[string.lower(Args[2])] then
+                        BringPlr(Host, BringLocations[string.lower(Args[2])])
+                    elseif Args[1] and BringLocations[string.lower(Args[2])] then
+                        local FoundPlayer = GetPlayerFromString(Args[1])
+                        if FoundPlayer then
+                            BringPlr(FoundPlayer, BringLocations[string.lower(Args[2])])
+                        end
+                    elseif Args[2] == "host" then
+                        local FoundPlayer = GetPlayerFromString(Args[1])
+                        if FoundPlayer then
+                            BringPlr(FoundPlayer, nil)
+                        end
+                    end
                 elseif command == "drop" then
                     startDroppingCash()
                 elseif command == "stop" then
