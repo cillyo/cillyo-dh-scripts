@@ -207,8 +207,9 @@ local function BringPlr(Target, POS)
     local c = game.Players.LocalPlayer.Character
     local Root = c.HumanoidRootPart
     local PrevCF = Root.CFrame
-    local TargetChar = TargetPlr.Character
-    if TargetPlr and TargetPlr.Character and TargetPlr.Character:FindFirstChild("Humanoid") and not (not c or not c:FindFirstChild("BodyEffects") or not c.BodyEffects:FindFirstChild("K.O") or not c.BodyEffects:FindFirstChild("Grabbed") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar or not TargetChar:FindFirstChild("BodyEffects") or not TargetChar.BodyEffects:FindFirstChild("K.O") or TargetChar.BodyEffects["K.O"].Value == true) then
+    local TargetChar = TargetPlr and TargetPlr.Character
+    
+    if TargetPlr and TargetChar and TargetChar:FindFirstChild("Humanoid") and not (not c or not c:FindFirstChild("BodyEffects") or not c.BodyEffects:FindFirstChild("K.O") or not c.BodyEffects:FindFirstChild("Grabbed") or c.BodyEffects["K.O"].Value == true or c.BodyEffects.Grabbed.Value ~= nil or not TargetChar:FindFirstChild("BodyEffects") or not TargetChar.BodyEffects:FindFirstChild("K.O") or TargetChar.BodyEffects["K.O"].Value == true) then
         CmdSettings["IsLocking"] = true
         c.Humanoid:SetStateEnabled(Enum.HumanoidStateType.FallingDown, false)
         Root.CFrame = CFrame.new(TargetChar.HumanoidRootPart.Position) * CFrame.new(0, 0, 1)
