@@ -317,15 +317,7 @@ local function onChatMessage(player, message)
             local spaceIndex = command:find(" ")
             if spaceIndex then
                 local cmd = command:sub(1, spaceIndex - 1)
-                local param = command:sub(spaceIndex + 1)
-                if cmd == "bring" then
-                    local spot
-                    if param == "host" or BringLocations[param] then
-                        spot = param
-                        param = nil
-                    end
-                    bringPlr(param, spot)
-                elseif cmd == "setup" then
+                if cmd == "setup" then
                     local location = locations[param]
                     if location then
                         teleportAltsToLocation(location)
